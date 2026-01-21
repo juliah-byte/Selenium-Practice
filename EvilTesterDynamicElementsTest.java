@@ -22,7 +22,7 @@ import org.openqa.selenium.Keys;
 import java.util.*;
 import java.net.MalformedURLException;
 import java.net.URL;
-public class EvilTesterDyanamicEleentsTest {
+public class EvilTesterDynamicElementsTest {
   private WebDriver driver;
   private Map<String, Object> vars;
   JavascriptExecutor js;
@@ -37,11 +37,27 @@ public class EvilTesterDyanamicEleentsTest {
     driver.quit();
   }
   @Test
-  public void evilTesterDyanamicEleents() {
+  public void evilTesterDynamicElements() {
     driver.get("https://testpages.eviltester.com/challenges/synchronization/dynamic-buttons-01/");
     driver.findElement(By.id("button00")).click();
     driver.findElement(By.id("button01")).click();
+    {
+      List<WebElement> elements = driver.findElements(By.id("button01"));
+      assert(elements.size() > 0);
+    }
+    {
+      WebDriverWait wait = new WebDriverWait(driver, 100);
+      wait.until(ExpectedConditions.presenceOfElementLocated(By.id("button02")));
+    }
     driver.findElement(By.id("button02")).click();
-    driver.findElement(By.id("button03")).click();
+    {
+      WebDriverWait wait = new WebDriverWait(driver, 10);
+      wait.until(ExpectedConditions.presenceOfElementLocated(By.id("button03")));
+    }
+    {
+      List<WebElement> elements = driver.findElements(By.id("button03"));
+      assert(elements.size() > 0);
+    }
+    driver.findElement(By.id("button02")).click();
   }
 }
